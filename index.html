@@ -18,7 +18,7 @@
 }
 *{-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier New',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
- 
+
 /* AUTH SCREEN */
 #auth-screen{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;align-items:center;justify-content:center}
 #auth-screen.show{display:flex}
@@ -39,24 +39,24 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
 .auth-err.show{display:block}
 .auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;font-size:10px;color:var(--muted)}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.auth-google{width:100%;background:white;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
-.auth-google:hover{border-color:var(--text)}
+.auth-github{width:100%;background:white;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.auth-github:hover{border-color:var(--text)}
 .psycho-bar{background:#fffdf0;border:1px solid #f0e8a0;border-radius:8px;padding:10px 12px;margin-bottom:16px;font-size:11px;color:#6a5a00}
- 
+
 /* FREE LIMIT BAR */
 #limit-bar{background:#fff8f0;border-bottom:1px solid #f0d8a0;padding:7px 20px;font-size:11px;color:#8a5a00;display:none;align-items:center;justify-content:space-between;flex-shrink:0}
 #limit-bar.show{display:flex}
 .limit-progress{flex:1;height:4px;background:#f0e0b0;border-radius:4px;margin:0 12px;overflow:hidden}
 .limit-fill{height:100%;background:#e07000;border-radius:4px;transition:width .3s}
 .upgrade-link{color:#e07000;cursor:pointer;text-decoration:underline;white-space:nowrap}
- 
+
 /* TOPBAR */
 #topbar{display:none;padding:10px 16px;background:var(--sidebar);border-bottom:1px solid var(--border);align-items:center;justify-content:space-between;flex-shrink:0}
 #topbar h1{font-family:'Instrument Serif',serif;font-size:18px;font-weight:400}
 #menu-btn{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text);padding:4px}
- 
+
 #app{display:flex;flex:1;overflow:hidden}
- 
+
 /* SIDEBAR */
 #sidebar{width:260px;min-width:260px;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:transform .25s ease}
 #logo{padding:16px 14px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -84,7 +84,7 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
 .idea-item .itag{font-size:9px;color:var(--muted);background:var(--card);padding:1px 6px;border-radius:10px;border:1px solid var(--border)}
 .empty{color:var(--muted);font-size:11px;padding:20px 12px;text-align:center;line-height:1.8}
 #sidebar-footer{padding:10px 12px;border-top:1px solid var(--border);font-size:9px;color:var(--muted)}
- 
+
 /* MAIN */
 #main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 #main::-webkit-scrollbar{width:3px}
@@ -147,7 +147,7 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
 @keyframes spin{to{transform:rotate(360deg)}}
 .offline-bar{background:#fff3cd;border-bottom:1px solid #ffc107;padding:7px 36px;font-size:11px;color:#856404;display:none;flex-shrink:0}
 .offline-bar.show{display:block}
- 
+
 /* USER DROPDOWN */
 #user-menu{display:none;position:absolute;top:52px;right:14px;background:white;border:1.5px solid var(--border);border-radius:10px;padding:6px;box-shadow:0 4px 20px rgba(0,0,0,.1);z-index:50;min-width:160px}
 #user-menu.show{display:block}
@@ -155,7 +155,7 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
 .menu-item{padding:7px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:background .15s}
 .menu-item:hover{background:var(--card)}
 .menu-item.danger{color:var(--red)}
- 
+
 @media(max-width:640px){
   #topbar{display:flex}
   #logo{display:none}
@@ -168,7 +168,7 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
 </style>
 </head>
 <body>
- 
+
 <!-- AUTH SCREEN -->
 <div id="auth-screen" class="show">
   <div class="auth-box">
@@ -199,13 +199,13 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
     <div class="auth-err" id="auth-err"></div>
     <button class="auth-btn" id="auth-submit">Inloggen</button>
     <div class="auth-divider">of</div>
-    <button class="auth-google" id="auth-google">
-      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Doorgaan met Google
+    <button class="auth-google" id="auth-github">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      Doorgaan met GitHub
     </button>
   </div>
 </div>
- 
+
 <div id="topbar">
   <h1>IdeaOS</h1>
   <button id="menu-btn">☰</button>
@@ -243,24 +243,24 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
   </div>
   <div id="main"></div>
 </div>
- 
+
 <script>
 const SUPABASE_URL = 'https://cqdkgttniikfdglbmvaa.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_fqYld0v11gzO32gFGNLD_Q_hfPB1qE9';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
- 
+
 const FREE_LIMIT = 5;
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
- 
+
 let ideas=[], selectedIdea=null, searchQuery='', activeTag=null, pendingIdea=null, editMode=false, isGenerating=false, currentUser=null;
- 
+
 // ── AUTH ───────────────────────────────────────────────
 const authScreen = document.getElementById('auth-screen');
 let authMode = 'login';
- 
+
 document.getElementById('tab-login').onclick = () => { authMode='login'; document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-signup').classList.remove('active'); document.getElementById('auth-submit').textContent='Inloggen'; };
 document.getElementById('tab-signup').onclick = () => { authMode='signup'; document.getElementById('tab-signup').classList.add('active'); document.getElementById('tab-login').classList.remove('active'); document.getElementById('auth-submit').textContent='Account aanmaken'; };
- 
+
 document.getElementById('auth-submit').onclick = async () => {
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
@@ -274,11 +274,11 @@ document.getElementById('auth-submit').onclick = async () => {
   else if(authMode==='signup'){ err.style.color='var(--green)'; err.textContent='Check je email voor bevestiging!'; err.classList.add('show'); }
   btn.disabled=false;
 };
- 
-document.getElementById('auth-google').onclick = async () => {
-  await sb.auth.signInWithOAuth({provider:'google', options:{redirectTo: window.location.href}});
+
+document.getElementById('auth-github').onclick = async () => {
+  await sb.auth.signInWithOAuth({provider:'github', options:{redirectTo: window.location.href}});
 };
- 
+
 sb.auth.onAuthStateChange(async (event, session) => {
   if(session?.user){
     currentUser = session.user;
@@ -292,7 +292,7 @@ sb.auth.onAuthStateChange(async (event, session) => {
     authScreen.classList.add('show');
   }
 });
- 
+
 // ── USER MENU ──────────────────────────────────────────
 document.getElementById('user-btn').onclick = (e) => {
   e.stopPropagation();
@@ -300,25 +300,25 @@ document.getElementById('user-btn').onclick = (e) => {
 };
 document.addEventListener('click', () => document.getElementById('user-menu').classList.remove('show'));
 document.getElementById('logout-btn').onclick = async () => { await sb.auth.signOut(); };
- 
+
 // ── DATABASE ───────────────────────────────────────────
 async function loadIdeas() {
   const {data} = await sb.from('ideas').select('*').order('created_at',{ascending:false});
   ideas = data || [];
 }
- 
+
 async function saveIdea(idea) {
   await sb.from('ideas').upsert({...idea, user_id: currentUser.id});
 }
- 
+
 async function deleteIdea(id) {
   await sb.from('ideas').delete().eq('id',id);
 }
- 
+
 async function updateTaskDone(id, taskDone) {
   await sb.from('ideas').update({task_done: taskDone}).eq('id',id);
 }
- 
+
 // ── LIMIT CHECK ────────────────────────────────────────
 function updateLimitBar() {
   const bar = document.getElementById('limit-bar');
@@ -331,19 +331,19 @@ function updateLimitBar() {
     bar.classList.remove('show');
   }
 }
- 
+
 // ── HELPERS ────────────────────────────────────────────
 const uid = () => Date.now()+'-'+Math.random().toString(36).slice(2,7);
 const getFiltered = () => ideas.filter(i=>(!searchQuery||i.title.toLowerCase().includes(searchQuery.toLowerCase()))&&(!activeTag||i.tags.includes(activeTag)));
 const getAllTags = () => [...new Set(ideas.flatMap(i=>i.tags||[]))];
- 
+
 window.addEventListener('online', renderApp);
 window.addEventListener('offline', renderApp);
- 
+
 document.getElementById('menu-btn').onclick = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); };
 document.getElementById('overlay').onclick = closeSidebar;
 function closeSidebar(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
- 
+
 // ── AI ─────────────────────────────────────────────────
 async function callMistral(sys, usr) {
   if(!navigator.onLine) throw new Error('Geen internetverbinding');
@@ -355,12 +355,12 @@ async function callMistral(sys, usr) {
   if(!r.ok) throw new Error(JSON.parse(txt).error||'AI fout');
   return txt.replace(/```json|```/g,'').trim();
 }
- 
+
 async function generateIdea(prompt) {
   const txt = await callMistral('', prompt);
   try { return JSON.parse(txt); } catch { throw new Error('AI gaf geen geldig antwoord.'); }
 }
- 
+
 async function improveIdea(idea) {
   if(!navigator.onLine) throw new Error('Geen internetverbinding');
   const r = await fetch('/api/generate', {
@@ -371,7 +371,7 @@ async function improveIdea(idea) {
   if(!r.ok) throw new Error(JSON.parse(txt).error||'AI fout');
   try { return JSON.parse(txt.replace(/```json|```/g,'').trim()); } catch { throw new Error('AI gaf geen geldig antwoord.'); }
 }
- 
+
 function exportMarkdown(idea) {
   const done = idea.task_done||{};
   const md = `# ${idea.title}\n\n**Tags:** ${(idea.tags||[]).map(t=>'#'+t).join(' ')}\n\n## Samenvatting\n${idea.summary}\n\n## Taken\n${(idea.tasks||[]).map((t,i)=>`- [${done[i]?'x':' '}] ${t}`).join('\n')}\n\n---\n*Geëxporteerd vanuit IdeaOS*`;
@@ -381,12 +381,12 @@ function exportMarkdown(idea) {
   a.href=url; a.download=idea.title.replace(/\s+/g,'-').toLowerCase()+'.md';
   a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
- 
+
 // ── RENDER ─────────────────────────────────────────────
 function aiPanel(){return`<div id="ai-section"><div class="ai-divider"><span>Genereer nieuw idee</span></div><textarea id="ai-input" placeholder="bijv. een app om gewoontes bij te houden..." maxlength="500"></textarea><div class="ai-bottom"><span class="char-count" id="char-count">0/500</span><button id="ai-gen-btn">Genereer idee →</button></div></div>`;}
- 
+
 function renderTasksEdit(tasks){return`<div class="edit-tasks" id="edit-tasks">${(tasks||[]).map((t,i)=>`<div class="edit-task-row"><input type="text" value="${esc(t)}" maxlength="200"><button class="rm-task">×</button></div>`).join('')}<button class="add-task-btn" id="add-task-btn">+ Taak toevoegen</button></div>`;}
- 
+
 function renderApp(){
   if(!currentUser) return;
   updateLimitBar();
@@ -395,11 +395,11 @@ function renderApp(){
   document.getElementById('idea-list').innerHTML=filtered.length
     ?filtered.map(i=>`<div class="idea-item${selectedIdea?.id===i.id?' active':''}" data-id="${i.id}"><div class="ititle">${esc(i.title)}</div><div class="imeta">${(i.tags||[]).map(t=>`<span class="itag">#${esc(t)}</span>`).join('')}</div></div>`).join('')
     :`<div class="empty">Nog geen ideeën.<br>Genereer je eerste hieronder.</div>`;
- 
+
   const idea=pendingIdea||selectedIdea;
   const main=document.getElementById('main');
   const offline=`<div class="offline-bar${!navigator.onLine?' show':''}">⚠️ Geen internet — AI werkt niet.</div>`;
- 
+
   if(!idea){
     main.innerHTML=offline+`<div class="placeholder"><div class="ph-icon">◈</div><h2>Jouw idee workspace</h2><p>Genereer een idee hieronder of selecteer er een uit de zijbalk.</p></div>`+aiPanel();
   } else if(editMode&&!pendingIdea){
@@ -432,35 +432,35 @@ function renderApp(){
   }
   bindEvents();
 }
- 
+
 function bindEvents(){
   document.getElementById('ai-input')?.addEventListener('input',e=>{ document.getElementById('char-count').textContent=`${e.target.value.length}/500`; });
   document.querySelectorAll('.tag-btn').forEach(b=>b.onclick=()=>{activeTag=activeTag===b.dataset.tag?null:b.dataset.tag;renderApp()});
   document.querySelectorAll('.idea-item').forEach(el=>el.onclick=()=>{ pendingIdea=null;editMode=false;selectedIdea=ideas.find(i=>i.id===el.dataset.id)||null;closeSidebar();renderApp(); });
- 
+
   document.getElementById('btn-save')?.addEventListener('click',async()=>{
     if(ideas.length>=FREE_LIMIT){alert(`Je hebt het gratis limiet van ${FREE_LIMIT} ideeën bereikt. Upgrade naar Pro voor onbeperkt!`);return;}
     const idea={...pendingIdea,id:uid(),user_id:currentUser.id,task_done:{}};
     await saveIdea(idea);ideas.unshift(idea);
     pendingIdea=null;selectedIdea=idea;renderApp();
   });
- 
+
   document.getElementById('btn-del')?.addEventListener('click',async()=>{
     if(!confirm(`"${selectedIdea.title}" verwijderen?`))return;
     await deleteIdea(selectedIdea.id);
     ideas=ideas.filter(i=>i.id!==selectedIdea.id);selectedIdea=null;renderApp();
   });
- 
+
   document.getElementById('btn-edit')?.addEventListener('click',()=>{editMode=true;renderApp()});
   document.getElementById('btn-cancel-edit')?.addEventListener('click',()=>{editMode=false;renderApp()});
- 
+
   document.getElementById('btn-save-edit')?.addEventListener('click',async()=>{
     const tasks=[...document.querySelectorAll('.edit-task-row input')].map(i=>i.value.trim()).filter(Boolean);
     const tags=document.getElementById('edit-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
     const updated={...selectedIdea,title:document.getElementById('edit-title').value.trim().slice(0,100),summary:document.getElementById('edit-summary').value.trim().slice(0,1000),tasks,tags};
     await saveIdea(updated);ideas=ideas.map(i=>i.id===updated.id?updated:i);selectedIdea=updated;editMode=false;renderApp();
   });
- 
+
   document.getElementById('add-task-btn')?.addEventListener('click',()=>{
     const row=document.createElement('div');row.className='edit-task-row';
     row.innerHTML=`<input type="text" placeholder="Nieuwe taak..." maxlength="200"><button class="rm-task">×</button>`;
@@ -469,7 +469,7 @@ function bindEvents(){
     row.querySelector('input').focus();
   });
   document.querySelectorAll('.rm-task').forEach(b=>b.onclick=()=>b.closest('.edit-task-row').remove());
- 
+
   document.querySelectorAll('.tasks li').forEach(li=>li.onclick=async()=>{
     if(!selectedIdea)return;
     const ti=li.dataset.ti;
@@ -479,7 +479,7 @@ function bindEvents(){
     ideas=ideas.map(i=>i.id===selectedIdea.id?selectedIdea:i);
     await updateTaskDone(selectedIdea.id,done);renderApp();
   });
- 
+
   document.getElementById('btn-improve')?.addEventListener('click',async()=>{
     if(!confirm('Huidige idee overschrijven met verbeterde versie?'))return;
     const btn=document.getElementById('btn-improve');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Verbeteren...';
@@ -487,9 +487,9 @@ function bindEvents(){
     catch(e){alert('Fout: '+e.message);}
     renderApp();
   });
- 
+
   document.getElementById('btn-export')?.addEventListener('click',()=>exportMarkdown(selectedIdea));
- 
+
   document.getElementById('ai-gen-btn')?.addEventListener('click',async()=>{
     if(isGenerating)return;
     if(ideas.length>=FREE_LIMIT){alert(`Gratis limiet bereikt (${FREE_LIMIT} ideeën). Upgrade naar Pro!`);return;}
@@ -503,17 +503,16 @@ function bindEvents(){
     const inp=document.getElementById('ai-input');
     if(inp&&pendingIdea){inp.value='';document.getElementById('char-count').textContent='0/500';}
   });
- 
+
   document.getElementById('upgrade-link')?.addEventListener('click',()=>alert('Pro plan komt binnenkort! Stuur een email naar pro@ideaos.app om op de wachtlijst te komen.'));
- 
+
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&editMode){editMode=false;renderApp();}
     if(e.key==='Enter'&&e.ctrlKey){document.getElementById('ai-gen-btn')?.click();}
   },{once:true});
 }
- 
+
 document.getElementById('search').addEventListener('input',e=>{searchQuery=e.target.value;renderApp()});
 </script>
 </body>
 </html>
- 

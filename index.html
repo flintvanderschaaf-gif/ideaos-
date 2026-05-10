@@ -339,7 +339,15 @@ document.getElementById('user-btn').onclick = (e) => {
   document.getElementById('user-menu').classList.toggle('show');
 };
 document.addEventListener('click', () => document.getElementById('user-menu').classList.remove('show'));
-document.getElementById('logout-btn').onclick = async () => { await sb.auth.signOut(); };
+document.getElementById('logout-btn').onclick = async () => {
+  await sb.auth.signOut();
+  ideas=[];selectedIdea=null;pendingIdea=null;currentUser=null;
+  document.getElementById('user-menu').classList.remove('show');
+  authScreen.classList.add('show');
+  // Reset terms so login screen shows
+  document.getElementById('step-terms').style.display='block';
+  document.getElementById('step-login').style.display='none';
+};
 
 // ── DATABASE ───────────────────────────────────────────
 async function loadIdeas() {
@@ -348,7 +356,8 @@ async function loadIdeas() {
 }
 
 async function saveIdea(idea) {
-  await sb.from('ideas').upsert({...idea, user_id: currentUser.id});
+  const {error} = await sb.from('ideas').upsert({...idea, user_id: currentUser.id});
+  if(error) { console.error('Save error:', error); throw new Error(error.message); }
 }
 
 async function deleteIdea(id) {
@@ -521,8 +530,11 @@ function bindEvents(){
   document.getElementById('btn-save')?.addEventListener('click',async()=>{
     if(ideas.length>=FREE_LIMIT){alert(`Je hebt het gratis limiet van ${FREE_LIMIT} ideeën bereikt. Upgrade naar Pro voor onbeperkt!`);return;}
     const idea={...pendingIdea,id:uid(),user_id:currentUser.id,task_done:{}};
-    await saveIdea(idea);ideas.unshift(idea);
-    pendingIdea=null;selectedIdea=idea;renderApp();
+    try {
+      await saveIdea(idea);
+      ideas.unshift(idea);
+      pendingIdea=null;selectedIdea=idea;renderApp();
+    } catch(e) { alert('Opslaan mislukt: '+e.message); }
   });
 
   document.getElementById('btn-del')?.addEventListener('click',async()=>{

@@ -297,6 +297,8 @@ sb.auth.onAuthStateChange(async (event, session) => {
     currentUser = session.user;
     document.getElementById('user-email-display').textContent = currentUser.email;
     authScreen.classList.remove('show');
+    const gate = document.getElementById('terms-gate');
+    if(gate) gate.style.display = 'none';
     await loadIdeas();
     renderApp();
   } else {

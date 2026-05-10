@@ -197,6 +197,10 @@ body{background:var(--bg);color:var(--text);font-family:'Geist Mono','Courier Ne
       <input type="password" id="auth-password" placeholder="••••••••">
     </div>
     <div class="auth-err" id="auth-err"></div>
+    <div id="terms-check" style="display:none;margin-bottom:12px;font-size:11px;color:#4a4845;display:flex;gap:8px;align-items:flex-start">
+      <input type="checkbox" id="agree-cb" style="margin-top:2px;flex-shrink:0">
+      <label for="agree-cb">Ik ga akkoord met de <a href="https://ideaos-smoky.vercel.app/terms.html" target="_blank" style="color:#1a1917">gebruiksvoorwaarden</a> en het <a href="https://ideaos-smoky.vercel.app/privacy.html" target="_blank" style="color:#1a1917">privacybeleid</a></label>
+    </div>
     <button class="auth-btn" id="auth-submit">Inloggen</button>
     <div class="auth-divider">of</div>
     <button class="auth-google" id="auth-github">
@@ -258,14 +262,17 @@ let ideas=[], selectedIdea=null, searchQuery='', activeTag=null, pendingIdea=nul
 const authScreen = document.getElementById('auth-screen');
 let authMode = 'login';
 
-document.getElementById('tab-login').onclick = () => { authMode='login'; document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-signup').classList.remove('active'); document.getElementById('auth-submit').textContent='Inloggen'; };
-document.getElementById('tab-signup').onclick = () => { authMode='signup'; document.getElementById('tab-signup').classList.add('active'); document.getElementById('tab-login').classList.remove('active'); document.getElementById('auth-submit').textContent='Account aanmaken'; };
+document.getElementById('tab-login').onclick = () => { authMode='login'; document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-signup').classList.remove('active'); document.getElementById('auth-submit').textContent='Inloggen'; document.getElementById('terms-check').style.display='none'; };
+document.getElementById('tab-signup').onclick = () => { authMode='signup'; document.getElementById('tab-signup').classList.add('active'); document.getElementById('tab-login').classList.remove('active'); document.getElementById('auth-submit').textContent='Account aanmaken'; document.getElementById('terms-check').style.display='flex'; };
 
 document.getElementById('auth-submit').onclick = async () => {
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
   const btn = document.getElementById('auth-submit');
   const err = document.getElementById('auth-err');
+  if(authMode==='signup' && !document.getElementById('agree-cb').checked){
+    err.textContent='Je moet akkoord gaan met de voorwaarden.'; err.classList.add('show'); return;
+  }
   btn.disabled=true; err.classList.remove('show');
   const {error} = authMode==='login'
     ? await sb.auth.signInWithPassword({email,password})
@@ -281,6 +288,12 @@ document.getElementById('auth-github').onclick = async () => {
 
 sb.auth.onAuthStateChange(async (event, session) => {
   if(session?.user){
+    // Check if user agreed to terms
+    const agreedKey = 'ideaos_agreed_'+session.user.id;
+    if(!localStorage.getItem(agreedKey)){
+      showTermsGate(session.user, agreedKey);
+      return;
+    }
     currentUser = session.user;
     document.getElementById('user-email-display').textContent = currentUser.email;
     authScreen.classList.remove('show');
@@ -317,6 +330,44 @@ async function deleteIdea(id) {
 
 async function updateTaskDone(id, taskDone) {
   await sb.from('ideas').update({task_done: taskDone}).eq('id',id);
+}
+
+// ── TERMS GATE ────────────────────────────────────────
+function showTermsGate(user, agreedKey) {
+  document.getElementById('auth-screen').classList.remove('show');
+  let gate = document.getElementById('terms-gate');
+  if(!gate){
+    gate = document.createElement('div');
+    gate.id = 'terms-gate';
+    gate.style.cssText = 'position:fixed;inset:0;background:#fafaf8;z-index:150;display:flex;align-items:center;justify-content:center';
+    gate.innerHTML = `<div style="background:white;border:1.5px solid #e8e5df;border-radius:16px;padding:36px;max-width:380px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.08)">
+      <h2 style="font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;margin-bottom:16px">Welkom bij IdeaOS</h2>
+      <p style="font-size:12px;color:#4a4845;margin-bottom:20px;line-height:1.7">Voor je verder gaat moet je akkoord gaan met onze voorwaarden.</p>
+      <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:20px;font-size:12px;color:#4a4845">
+        <input type="checkbox" id="gate-cb" style="margin-top:2px;flex-shrink:0">
+        <label for="gate-cb">Ik ga akkoord met de <a href="https://ideaos-smoky.vercel.app/terms.html" target="_blank" style="color:#1a1917">gebruiksvoorwaarden</a> en het <a href="https://ideaos-smoky.vercel.app/privacy.html" target="_blank" style="color:#1a1917">privacybeleid</a></label>
+      </div>
+      <div id="gate-err" style="font-size:11px;color:#c0392b;margin-bottom:10px;display:none">Je moet akkoord gaan om verder te gaan.</div>
+      <button id="gate-btn" style="width:100%;background:#1a1917;color:white;border:none;border-radius:8px;padding:11px;font-family:inherit;font-size:12px;cursor:pointer">Doorgaan</button>
+      <button id="gate-logout" style="width:100%;background:none;border:none;color:#9a9590;font-family:inherit;font-size:11px;cursor:pointer;margin-top:8px">Uitloggen</button>
+    </div>`;
+    document.body.appendChild(gate);
+  }
+  gate.style.display = 'flex';
+  document.getElementById('gate-btn').onclick = () => {
+    if(!document.getElementById('gate-cb').checked){
+      document.getElementById('gate-err').style.display='block'; return;
+    }
+    localStorage.setItem(agreedKey, '1');
+    gate.style.display = 'none';
+    document.getElementById('user-email-display').textContent = user.email;
+    authScreen.classList.remove('show');
+    loadIdeas().then(renderApp);
+  };
+  document.getElementById('gate-logout').onclick = async () => {
+    await sb.auth.signOut();
+    gate.style.display = 'none';
+  };
 }
 
 // ── LIMIT CHECK ────────────────────────────────────────
